@@ -1,0 +1,553 @@
+﻿@model Assistenza.BufDalsi.Web.Models.ImpiantoViewModels.DetailsViewModel
+
+<!-- #region header -->
+
+<div class="row">
+    <div class="panel panel-success text-box" style="font-size:14px; background:#f3f8f8;">
+        <div class="panel-heading-custom">
+            <h2>Impianto</h2>
+        </div>
+        <div class="panel-body">
+            <div class="col-lg-4 margin-detail">
+                <p> <span class="glyphicon glyphicon-briefcase"></span> <span class="text-bold">Ragione Sociale Impianto:</span>  @Model.imp.ipt_RagioneSociale </p>
+                <p> <span class="glyphicon glyphicon-flash"></span> <span class="text-bold">Potenza Nominale:</span>  @Model.imp.ipt_PotenzaNominale KW</p>
+                <p> <span class="glyphicon glyphicon-user"></span> <span class="text-bold">Ragione Sociale Del Cliente:</span>  @Model.clt.clt_RagioneSociale </p>
+                <p> <span class="glyphicon glyphicon-globe"></span> <span class="text-bold">Posizione:</span>  @Model.imp.ipt_PosizioneLat | @Model.imp.ipt_PosizioneLong </p>
+            </div>
+            <div class="col-lg-4 ">
+                <p> <span class="glyphicon glyphicon-random"></span> <span class="text-bold">Separatore:</span>  @Model.imp.ipt_Separatore </p>
+                <p> <span class="fa fa-tencent-weibo"></span> <span class="text-bold">Soffiante:</span>  @Model.imp.ipt_Soffiante </p>
+                <p> <span class="glyphicon glyphicon-fire"></span> <span class="text-bold">Torcia:</span>  @Model.imp.ipt_Torcia </p>
+                <p> <span class="glyphicon glyphicon-tint"></span> <span class="text-bold">Pompa :</span>  @Model.imp.ipt_Pompa </p>
+            </div>
+            @if (User.IsInRole("Operator"))
+            {
+                <div class="row">
+                    <div class="col-lg-3 pull-right">
+                        <div>
+                            <a class="btn btn-success btn-IES detail-button pull-right" method="get" data-target="#modal-container-insert-cogeneratore" data-toggle="modal" href='@Url.Action("InsertCogeneratore", "Cogeneratore",
+                        new { clt_Id = Model.clt.clt_Id, ipt_Id = @Model.imp.ipt_Id })'>Nuovo Cogeneratore</a>
+                            <a class="btn btn-IES detail-button pull-right" method="get" data-target="#modal-container-insert-vasca" data-toggle="modal" href='@Url.Action("InsertVasca", "Vasca",
+                        new { clt_Id = Model.clt.clt_Id, ipt_Id = @Model.imp.ipt_Id })'>Nuova Vasca</a>
+                            <a class="btn btn-IES detail-button pull-right" method="get" data-target="#modal-container-insert-generico" data-toggle="modal" href='@Url.Action("InsertGenerico", "Generico",
+                        new { clt_Id = Model.clt.clt_Id, ipt_Id = @Model.imp.ipt_Id })'>Nuova Comp. Generico</a>
+                            <button class="btn btn-IES detail-button pull-right" id="collapse-all">Espandi tutto</button>
+
+                        </div>
+                    </div><br />
+                    <div class="col-lg-3 pull-right">
+                        <a class="fab red pull-right" method="get" data-target="#modal-container-update-impianto" data-toggle="modal" href='@Url.Action("UpdateImpianto", "Impianto",
+                        new { clt_Id = Model.clt.clt_Id, ipt_Id = @Model.imp.ipt_Id })'><span class="glyphicon glyphicon-pencil"></span></a>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+<br />
+
+<!-- #endregion header -->
+
+<div id="all">
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+    <!-- #region cogeneratori -->
+
+    <div class="row">
+        <div class="panel panel-default text-box">
+            <div class="panel-body">
+                <div class="panel text-box">
+                    <div class="panel-heading-custom">
+                        <h3>Cogeneratori<button class="btn btn-primary collapse2 pull-right" id="collapse-button" type="button" data-toggle="collapse" data-target="#cogen" aria-expanded="false" aria-controls="cogen"><span class="glyphicon glyphicon-chevron-down collapse-button-icon"></span></button></h3>
+
+                    </div>
+                </div>
+                <div class="collapse collapse-impianto" id="cogen">
+                    @foreach (var c in Model.cogeneratori)
+            {
+                    <div class="col-lg-4 padding">
+                        <div class="panel panel-success" style="font-size:14px; background:#f3f8f8;">
+                            <div class="panel-heading-custom">
+                                <h4>Cogeneratore:</h4>
+                            </div>
+                            <div class="panel-body topMargin">
+                                <p> <span class="glyphicon glyphicon-flash"></span> <span class="text-bold">Potenza:</span>  @c.cgn_Potenza KW</p>
+                                <p> <i class="material-icons" style="font-size:15px;">label</i>           <span class="text-bold">Marca:</span>  @c.cgn_Marca </p>
+                                <p> <i class="material-icons" style="font-size:15px;">label_outline</i>     <span class="text-bold">Modello:</span>  @c.cgn_Modello </p>
+                                <p> <i class="material-icons" style="font-size:15px;">fingerprint</i>     <span class="text-bold">Serie:</span>  @c.cgn_Serie </p>
+
+                                @if (User.IsInRole("Operator"))
+                {
+                                <span class="pull-right">
+                                    <a class="fab red" data-target="#modal-container-update-cogeneratore" data-toggle="modal" href='@Url.Action("UpdateCogeneratore", "Cogeneratore",
+                                new { cgn_Id = @c.cgn_Id, ipt_Id = @Model.imp.ipt_Id, clt_Id = @Model.clt.clt_Id})'><span class="glyphicon glyphicon-pencil centra-icona"></span></a>
+                                    <a class="fab red" method="delete" data-target="#modal-container-delete-cogeneratore" data-toggle="modal" href='@Url.Action("DeleteCogeneratore", "Cogeneratore",
+                                new { cgn_Id = @c.cgn_Id, ipt_Id = @Model.imp.ipt_Id, clt_Id = @Model.imp.ipt_Cliente })'><span class="glyphicon glyphicon-trash centra-icona"></span></a>
+                                </span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+                </div>
+            </div>
+        </div>
+    </div><br />
+
+    <!-- #endregion cogeneratori -->
+    <!-- #region vasche -->
+
+    @foreach (var v in Model.vasche)
+{
+    <div>
+        <div class="row">
+            <div class="panel panel-default text-box">
+                <div class="panel-body vasche">
+
+                    <div class="panel-heading-custom">
+                        <h3>Vasca: @v.vsc_Nome<button class="btn btn-primary collapse-button pull-right" id="collapse-button" type="button" data-toggle="collapse" data-target="#@v.vsc_Id" aria-expanded="false" aria-controls="@v.vsc_Id"><span class="glyphicon glyphicon-chevron-down collapse-button-icon"></span></button></h3>
+
+                    </div>
+
+                    <div class="position collapse collapse-impianto" id="@v.vsc_Id">
+                        <div class="panel-body topMargin">
+                            <div class="col-lg-4 border-right">
+                                <p> <span class="glyphicon glyphicon-info-sign"></span>    <span class="text-bold">Nome:</span> @v.vsc_Nome</p>
+                                <p> <span class="glyphicon glyphicon-resize-vertical"></span>    <span class="text-bold">Altezza:</span> @v.vsc_Altezza m</p>
+                                <p>
+                                    <span class="glyphicon glyphicon-tent"></span>               <span class="text-bold">
+                                        Coperta:
+                                    </span> @if (v.vsc_Coperta)
+                                    {<span class="glyphicon glyphicon-ok"></span> }
+                                    else if (!v.vsc_Coperta)
+                                    {<span class="glyphicon glyphicon-remove"></span> }
+                                </p>
+                                <p>
+                                    <span class="glyphicon glyphicon-dashboard "></span>         <span class="text-bold">
+                                        Riscaldata:
+                                    </span> @if (v.vsc_Riscaldata)
+                                    {<span class="glyphicon glyphicon-ok"></span> }
+                                    else if (!v.vsc_Riscaldata)
+                                    {<span class="glyphicon glyphicon-remove"></span> }
+                                </p>
+                                <p>
+                                    <span class="glyphicon glyphicon-retweet "></span>           <span class="text-bold">
+                                        Recupero:
+                                    </span> @if (v.vsc_Recupero)
+                                    {<span class="glyphicon glyphicon-ok"></span> }
+                                    else if (!v.vsc_Recupero)
+                                    {<span class="glyphicon glyphicon-remove"></span> }
+                                </p>
+                            </div>
+                            <div class="col-lg-4 border-right">
+                                <p>
+                                    <span class="glyphicon glyphicon-sort-by-attributes-alt  "></span> <span class="text-bold">
+                                        Interrata:
+                                    </span> @if (v.vsc_Interrata)
+                                    {<span class="glyphicon glyphicon-ok"></span> }
+                                    else if (!v.vsc_Interrata)
+                                    {<span class="glyphicon glyphicon-remove"></span> }
+                                </p>
+                                <p><span class="glyphicon glyphicon-sort-by-attributes-alt  "></span>  <span class="text-bold">Interramento:</span>  @v.vsc_Interramento m</p>
+                                <p><span class="glyphicon glyphicon-ban-circle "></span>  <span class="text-bold">Diametro:</span>  @v.vsc_Diametro m</p>
+                                <p><span class="glyphicon glyphicon-chevron-up "></span>   <span class="text-bold">Numero Soffiantine:</span>  @v.vsc_NSoffiantine </p>
+                            </div>
+                            @if (User.IsInRole("Operator"))
+                            {
+                        <div class="col-lg-4">
+                            <a class="btn btn-success btn-IES detail-button" method="get" data-target="#modal-container-insert-sensore" data-toggle="modal" href='@Url.Action("InsertSensore", "Sensore",
+                                    new { vsc_Id = @v.vsc_Id, clt_Id = Model.clt.clt_Id, ipt_Id = @Model.imp.ipt_Id })'>Nuovo Sensore</a>
+                            <a class="btn btn-success btn-IES detail-button" method="get" data-target="#modal-container-insert-agitatore" data-toggle="modal" href='@Url.Action("InsertAgitatore", "Agitatore",
+                                    new { vsc_Id = @v.vsc_Id, clt_Id = Model.clt.clt_Id, ipt_Id = @Model.imp.ipt_Id })'>Nuovo Agitatore</a>
+                        </div>
+                            }
+                            @if (User.IsInRole("Operator"))
+                            {
+                        <span class="pull-right">
+                            <a class="fab red" method="get" data-target="#modal-container-update-Vasca" data-toggle="modal" href='@Url.Action("UpdateVasca", "Vasca",
+                                new { vsc_Id = @v.vsc_Id, ipt_Id = @Model.imp.ipt_Id, clt_Id = @Model.clt.clt_Id})'><span class="glyphicon glyphicon-pencil"></span></a>
+                            <a class="fab red" method="delete" data-target="#modal-container-delete-vasca" data-toggle="modal" href='@Url.Action("DeleteVasca", "Vasca",
+                                new { vsc_Id = @v.vsc_Id, ipt_Id = @Model.imp.ipt_Id, clt_Id = @Model.imp.ipt_Cliente })'><span class="glyphicon glyphicon-trash centra-icona"></span></a>
+                        </span>
+                            }
+                        </div><br />
+
+                        <div class="row">
+                            <div>
+                                <div class="panel-body">
+                                    <div class="panel-heading-custom">
+                                        <h3>Sensori</h3>
+                                    </div>
+                                    <div class="panel-body padding">
+                                        @foreach (var s in Model.sensori)
+                                        {
+                                            if (s.ssr_Vasca == v.vsc_Id)
+                                            {
+                                        <div class="col-lg-4 topMargin padding">
+                                            <div class="panel panel-success" style="font-size:14px; background:#f3f8f8;">
+                                                <div class="panel-heading-custom">
+                                                    <h4>Sensore: @s.ssr_Nome</h4>
+                                                </div>
+                                                <div class="panel-body" style="height: 235px;">
+                                                    <p> <i class="material-icons" style="font-size:15px;">label</i>    <span class="text-bold">Marca:</span>  @s.ssr_Marca </p>
+                                                    <p> <i class="material-icons" style="font-size:15px;">label_outline</i>     <span class="text-bold">Modello:</span>  @s.ssr_Modello </p>
+                                                    <p> <i class="material-icons" style="font-size:15px;">fingerprint</i>    <span class="text-bold">Serie:</span>  @s.ssr_Serie </p>
+                                                    <p> <span class="glyphicon glyphicon-wrench"></span>    <span class="text-bold">Ultima Installazione:</span>  @String.Format("{0:dd/MM/yyyy}", s.ssr_UltimaInstallazione) </p>
+                                                    @if (User.IsInRole("Operator"))
+                                                            {
+                                                        <div class="pull-right">
+                                                            <a class="fab red" method="get" data-target="#modal-container-update-sensore" data-toggle="modal" href='@Url.Action("UpdateSensore", "Sensore",
+                                    new { ssr_Id = @s.ssr_Id, ipt_Id = @Model.imp.ipt_Id, clt_Id = @Model.imp.ipt_Cliente})'><span class="glyphicon glyphicon-pencil centra-icona"></span></a>
+                                                            <a class="fab red" method="delete" data-target="#modal-container-delete-sensore" data-toggle="modal" href='@Url.Action("DeleteSensore", "Sensore",
+                                    new { Id = s.ssr_Id, ipt_Id = @Model.imp.ipt_Id, clt_Id = @Model.imp.ipt_Cliente })'><span class="glyphicon glyphicon-trash centra-icona"></span></a>
+                                                        </div>
+                                                            }
+                                                </div>
+                                            </div>
+                                        </div>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="panel-body">
+                                <div>
+                                    <div class="panel-heading-custom">
+                                        <h3>Agitatori</h3>
+                                    </div>
+                                </div>
+                                @foreach (var a in Model.agitatori)
+                                {
+                                    if (a.agt_Vasca == v.vsc_Id)
+                                    {
+                                <div class="col-lg-4 topMargin padding">
+                                    <div id="agtZone+@a.agt_Id.ToString()" class="panel panel-success" style="font-size:14px; background:#f3f8f8;">
+                                        <div class="panel-heading-custom">
+                                            <h4>Agitatore: @a.agt_Nome</h4>
+                                        </div>
+                                        <div class="panel-body" style="height: 330px;">
+                                            <p> <span class="glyphicon glyphicon-info-sign"></span>     <span class="text-bold">Nome:</span>  @a.agt_Nome </p>
+                                            <p> <i class="material-icons" style="font-size:15px;">label</i>    <span class="text-bold">Marca:</span>  @a.agt_Marca </p>
+                                            <p> <i class="material-icons" style="font-size:15px;">label_outline</i>     <span class="text-bold">Modello(e potenza):</span>  @a.agt_Modello </p>
+                                            <p> <i class="material-icons" style="font-size:15px;">fingerprint</i>    <span class="text-bold">Serie:</span>  @a.agt_SerialNumber </p>
+                                            <p> <span class="glyphicon glyphicon-wrench"></span>    <span class="text-bold">Ultima Installazione:</span>  @String.Format("{0:dd/MM/yyyy}", a.agt_UltimaInstallazione)</p>
+                                            <p> <span class="glyphicon glyphicon-wrench"></span>    <span class="text-bold">Ultimo Intervento:</span>  @String.Format("{0:dd/MM/yyyy}", a.agt_UltimoIntervento) </p>
+                                            <p> <span class="glyphicon glyphicon-time"></span>    <span class="text-bold">Ore Ultimo Intervento:</span>  @a.agt_OreUltimoIntervento </p>
+                                            <p>
+                                                <span class="glyphicon glyphicon-retweet "></span>           <span class="text-bold">
+                                                    Rimosso:
+                                                </span>
+                                                @if (a.agt_Rimosso)
+                                                        {
+                                                    <script type="text/javascript">
+                                                                function removedStyle() {
+                                                                    var str = "agtZone+@a.agt_Id";
+                                                                    document.getElementById(str).style.background = "#f2e6e6";
+                                                                }
+                                                                removedStyle();
+                                                    </script>
+                                                    <span class="glyphicon glyphicon-ok"></span> }
+                                                        else if (!a.agt_Rimosso)
+                                                        {
+                                                    <script type="text/javascript">
+                                                                function presentStyle() {
+                                                                    var str = "agtZone+@a.agt_Id";
+                                                                    document.getElementById(str).style.background = "#f3f8f8";
+                                                                }
+                                                                presentStyle();
+                                                    </script>
+                                                    <span class="glyphicon glyphicon-remove"></span> }
+                                            </p>
+
+
+                                            @if (User.IsInRole("Operator"))
+                                                    {
+                                                <div class="pull-right">
+                                                    <a class="fab red" method="get" data-target="#modal-container-update-agitatore" data-toggle="modal" href='@Url.Action("UpdateAgitatore", "Agitatore",
+                                         new { agt_Id = @a.agt_Id, ipt_Id = @Model.imp.ipt_Id, clt_Id = @Model.imp.ipt_Cliente})'><span class="glyphicon glyphicon-pencil centra-icona"></span></a>
+                                                    <a class="fab red" method="delete" data-target="#modal-container-delete-agitatore" data-toggle="modal" href='@Url.Action("DeleteAgitatore", "Agitatore",
+                                         new { Id = a.agt_Id, ipt_Id = @Model.imp.ipt_Id, clt_Id = @Model.imp.ipt_Cliente })'><span class="glyphicon glyphicon-trash centra-icona"></span></a>
+                                                </div>
+                                                    }
+                                        </div>
+                                    </div>
+                                </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div><br />
+
+
+
+
+            </div>
+        </div>
+    </div><br />
+}
+
+    <!-- #endregion vasche -->
+    <!-- #region componenti generici -->
+    <div class="row">
+        <div class="panel panel-default text-box">
+            <div class="panel-body">
+                <div class="panel text-box">
+                    <div class="panel-heading-custom">
+                        <h3>Componenti generici<button class="btn btn-primary pull-right" id="collapse-button" type="button" data-toggle="collapse" data-target="#bs-collapseExample" aria-expanded="false" aria-controls="collapseExample"><span class="glyphicon glyphicon-chevron-down collapse-button-icon"></span></button></h3>
+
+                    </div>
+                </div>
+                <div class="panel-body padding collapse collapse-impianto" id="bs-collapseExample">
+                    @foreach (var g in Model.componentiGenerici)
+            {
+                    <div class="col-lg-4 padding">
+                        <div id="gnrZone+@g.gnr_Id.ToString()" class="panel panel-success" style="font-size:14px; background:#f3f8f8;">
+                            <div class="panel-heading-custom">
+                                <h3>Componente : @g.gnr_Nome</h3>
+                            </div>
+                            <div class="panel-body topMargin" style="height: 450px;">
+                                <p> <span class="glyphicon glyphicon-info-sign"></span>     <span class="text-bold">Nome:</span>  @g.gnr_Nome </p>
+                                <p> <i class="material-icons" style="font-size:15px;">label</i>    <span class="text-bold">Marca:</span>  @g.gnr_Marca </p>
+                                <p> <i class="material-icons" style="font-size:15px;">label_outline</i>     <span class="text-bold">Modello(e potenza):</span>  @g.gnr_Modello </p>
+                                <p> <i class="material-icons" style="font-size:15px;">fingerprint</i>    <span class="text-bold">Serie:</span>  @g.gnr_Serie </p>
+                                <p> <span class="glyphicon glyphicon-wrench"></span>    <span class="text-bold">Ultima Installazione:</span>  @String.Format("{0:dd/MM/yyyy}", g.gnr_UltimaInstallazione)</p>
+                                <p> <span class="glyphicon glyphicon-wrench"></span>    <span class="text-bold">Ultimo Intervento:</span>  @String.Format("{0:dd/MM/yyyy}", g.gnr_UltimoIntervento) </p>
+                                <p> <span class="glyphicon glyphicon-time"></span>    <span class="text-bold">Ore Ultimo Intervento:</span>  @g.gnr_OreUltimoIntervento </p>
+                                <p>
+                                    <span class="glyphicon glyphicon-retweet "></span>           <span class="text-bold">
+                                        Rimosso:
+                                    </span>
+                                    @if (g.gnr_Rimosso)
+                                    {
+                                    <script type="text/javascript">
+                                            function removedStyle() {
+                                                var str = "gnrZone+@g.gnr_Id";
+                                                document.getElementById(str).style.background = "#f2e6e6";
+                                            }
+                                            removedStyle();
+                                    </script>
+                                    <span class="glyphicon glyphicon-ok"></span> }
+                                    else if (!g.gnr_Rimosso)
+                                    {
+                                    <script type="text/javascript">
+                                            function presentStyle() {
+                                                var str = "gnrZone+@g.gnr_Id";
+                                                document.getElementById(str).style.background = "#f3f8f8";
+                                            }
+                                            presentStyle();
+                                    </script>
+                                    <span class="glyphicon glyphicon-remove"></span> }
+                                </p>
+                                <p> <span class="glyphicon glyphicon-info-sign"></span>     <span class="text-bold">Descrizione:</span>  @g.gnr_Descrizione </p>
+                                @if (User.IsInRole("Operator"))
+                                {
+                                <div class="pull-right bottom">
+                                    <a class="fab red" method="get" data-target="#modal-container-update-generico" data-toggle="modal" href='@Url.Action("UpdateGenerico", "Generico",
+                                         new { gnr_Id = @g.gnr_Id, ipt_Id = @Model.imp.ipt_Id, clt_Id = @Model.imp.ipt_Cliente})'><span class="glyphicon glyphicon-pencil centra-icona"></span></a>
+                                    <a class="fab red" method="delete" data-target="#modal-container-delete-generico" data-toggle="modal" href='@Url.Action("DeleteGenerico", "Generico",
+                                         new { Id = g.gnr_Id, ipt_Id = @Model.imp.ipt_Id, clt_Id = @Model.imp.ipt_Cliente })'><span class="glyphicon glyphicon-trash centra-icona"></span></a>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- #endregion componenti generici -->
+
+</div>
+<!--___________________________________________________Zona per modali ___________________________________________________________________________________________________________________-->
+<!-- La classe .reload serve a ricaricare la pagina quando si chiude il modale in maniera che alcuni glitch vengano eliminati-->
+<!-- #region modali -->
+<div class="row">
+    <div id="modal-container-insert-cogeneratore" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="modal-container-update-cogeneratore" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div id="modal-container-update-Vasca" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="modal-container-update-sensore" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="modal-container-update-generico" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="modal-container-update-impianto" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div id="modal-container-update-agitatore" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="modal-container-insert-vasca" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="modal-container-delete-cogeneratore" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="modal-container-delete-generico" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="modal-container-delete-vasca" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="modal-container-insert-sensore" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="modal-container-insert-agitatore" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="modal-container-insert-generico" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="modal-container-delete-sensore" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="modal-container-delete-agitatore" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- #endregion modali -->
+<!--questo script ricarica la pagina quando il modale viene chiuso. in caso contrario il modale non cambia contenuti-->
+@section scripts{
+    <script>
+        var toggle = true;
+        $(document).ready(function () {
+            $(".collapse").on("hide.bs.collapse");
+            /*, function () {
+                $(".collapse-button").html('<span class="glyphicon glyphicon-chevron-down collapse-button-icon"></span>');              // parte per cambiare l'icona del collapse sul click (lo fa per tutti i pulsanti contemporaneamente, da sistemare)
+
+            }*/
+            $(".collapse").on("show.bs.collapse"/*, function () {
+                $(".collapse-button").html('<span class="glyphicon glyphicon-chevron-up collapse-button-icon"></span>')                 // parte per cambiare l'icona del collapse sul click (lo fa per tutti i pulsanti contemporaneamente, da sistemare)
+            }*/);
+
+            $("#collapse-all").on('click', function () {
+                if (toggle == true) {
+
+                    $(".collapse-impianto").collapse('show');
+                    $("#collapse-all").html('Chiudi tutto');
+                    toggle = false;
+
+                } else {
+
+                    $(".collapse-impianto").collapse('hide');
+                    $("#collapse-all").html('Espandi tutto');
+                    toggle = true;
+
+                }
+            });
+        })
+
+        $('.reload').on('hidden.bs.modal', function () {
+            location.reload();
+        });
+
+    </script>
+}

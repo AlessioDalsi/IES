@@ -1,0 +1,88 @@
+﻿@model IEnumerable<UserListViewModel>
+@using Assistenza.BufDalsi.Web.Models
+@using Assistenza.BufDalsi.Web.Code
+
+
+<div class="container">
+    <div class="row">
+        <div class="panel panel-default text-box">
+            <div class="container-fluid">
+                <h1 class="section-title">Gestione Utenti</h1>
+                <a id="AddUser" data-toggle="modal" asp-action="AddUser" data-target="#modal-container-add" class="btn btn-primary">
+                    <i class="glyphicon glyphicon-plus"></i>Aggiungi Utente
+                </a>
+                <table class="table table-bordered table-striped table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Azioni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>@item.Email</td>
+                                <td>
+                                    <a data-toggle="modal" asp-action="EditUser" asp-route-id="@item.Id" data-target="#modal-container-edit"
+                                       class="btn btn-info">
+                                        <i class="glyphicon glyphicon-pencil"></i>  Modifica
+                                    </a>
+                                    <a id="deleteUserModal" data-toggle="modal" asp-action="DeleteUser" asp-route-id="@item.Id" data-target="#modal-container-delete" class="btn btn-danger">
+                                        <i class="glyphicon glyphicon-trash"></i>  Eimina
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO   MODALI   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO-->
+
+<div class="row">
+    <div id="modal-container-add" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="modal-container-edit" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="modal-container-delete" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO-->
+
+@section scripts
+{
+    <script src="~/js/user-index.js" asp-append-version="true"></script>
+<script>
+    $('.reload').on('hidden.bs.modal', function () {
+        location.reload();
+
+    });
+</script>
+
+}

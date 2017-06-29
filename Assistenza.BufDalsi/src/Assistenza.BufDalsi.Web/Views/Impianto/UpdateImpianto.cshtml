@@ -1,0 +1,74 @@
+﻿@model Assistenza.BufDalsi.Web.Models.ImpiantoViewModels.UpdateImpiantoViewModel
+
+
+<div class="modal-header modal-header-custom">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+<div>
+    <form asp-controller="Impianto" asp-action="UpdateImpianto" method="post">
+        <h2 class="section-title">Modifica impianto</h2>
+        <div class="dati">
+            <div class="form-group">
+                <label>Ragione Sociale:</label><br />
+                <label>@Model.ipt_RagioneSociale</label>
+                <input type="hidden" value="@Model.ipt_Id" asp-for="@Model.ipt_Id" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Potenza nominale:</label><br />
+                <input type="number" class="form-control" min="0" required value="@Model.ipt_PotenzaNominale" asp-for="@Model.ipt_PotenzaNominale" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Ragione sociale:</label><br />
+                <input required type="text" class="form-control" maxlength="100" value="@Model.ipt_RagioneSociale" asp-for="@Model.ipt_RagioneSociale" />
+            </div>
+            <div class="form-group">
+                <label>Cliente Attuale : @Model.RagioneSocialeClienteCorrente</label><br />
+                <label for="exampleSelect1">Cliente:</label>
+                <select class="form-control" asp-for="@Model.ipt_Cliente">
+                    @foreach (var c in Model.clientidaiqualiscegliere)
+                    {
+                        <option value="@c.clt_Id">@c.clt_RagioneSociale</option>
+                    }
+                </select><br />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Latitudine:</label><br />
+                <input type="text" min="0" step="any" pattern="[-+]?[0-9]*[,]?[0-9]+" title="La latitudine puo assumere valori tra -90 e +90 con max 8 cifre significative dopo la virgola. Utilizzare solo la virgola" class="form-control" value="@Model.ipt_PosizioneLat" asp-for="@Model.ipt_PosizioneLat" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Longitudine:</label><br />
+                <input type="text" min="0" step="any" pattern="[-+]?[0-9]*[,]?[0-9]+" title="La latitudine puo assumere valori tra -90 e +90 con max 8 cifre significative dopo la virgola. Utilizzare solo la virgola" class="form-control" value="@Model.ipt_PosizioneLong" asp-for="@Model.ipt_PosizioneLong" />
+            </div>
+            <div class="form-group" style="border-bottom: 1px solid black;">
+                <label>Regione Attuale : @Model.RegioneCorrente</label><br />
+                <label for="exampleSelect1">Regione:</label>
+                <select class="form-control" asp-for="@Model.ipt_Regione">
+                    @foreach (var r in Model.regionidallequaliscegliere)
+                    {
+                        <option value="@r.rgn_Id">@r.rgn_Nome</option>
+                    }
+                </select><br />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Torcia:</label><br />
+                <input type="text" class="form-control" maxlength="100" value="@Model.ipt_Torcia" asp-for="@Model.ipt_Torcia" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Separatore:</label><br />
+                <input type="text" class="form-control" maxlength="100" value="@Model.ipt_Separatore" asp-for="@Model.ipt_Separatore" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Soffiante:</label><br />
+                <input type="text" class="form-control" maxlength="100" value="@Model.ipt_Soffiante" asp-for="@Model.ipt_Soffiante" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Pompa:</label><br />
+                <input type="text" class="form-control" maxlength="100" value="@Model.ipt_Pompa" asp-for="@Model.ipt_Pompa" />
+            </div>
+
+            <div class="form-group add">
+                <button type="submit" class="btn btn-primary">Modifica</button>
+            </div>
+        </div>
+    </form>
+</div>

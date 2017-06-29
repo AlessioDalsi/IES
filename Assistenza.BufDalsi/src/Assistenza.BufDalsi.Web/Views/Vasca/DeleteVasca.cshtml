@@ -1,0 +1,19 @@
+﻿@model Assistenza.BufDalsi.Web.Models.VascaViewModels.DeleteVascaViewModel
+
+
+<div class="modal-header modal-header-custom">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+<div class="dati panel-heading">
+    <form method="post" asp-controller="Vasca" asp-action="DeleteVasca">
+        <fieldset>
+            <legend>Sicuro di voler eliminare questa vasca ?</legend>
+
+
+            <input type="hidden" value="@Model.Id" asp-for="@Model.Id" />
+            <input type="hidden" value="@Model.clt_Id" asp-for="@Model.clt_Id" />
+            <input type="hidden" value="@Model.ipt_Id" asp-for="@Model.ipt_Id" />
+            <input class="btn btn-warning" type="submit" name="DeleteVasca" value="Elimina" /><a class="btn pull-right btn-primary" data-dismiss="modal"> Torna all'impianto</a><br />
+        </fieldset>
+    </form>
+</div>

@@ -1,0 +1,7 @@
+﻿@model Assistenza.BufDalsi.Web.Models.ManutenzioneViewModels.UserImpiantiModelView
+
+@foreach (var i in Model.imp)
+{
+    <p>Ragione sociale: @i.ipt_RagioneSociale</p><br />
+    <p>             ID: @i.ipt_Id</p><br />
+}

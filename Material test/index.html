@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assistenza IES</title>
+    <link rel="stylesheet" href="bower_components/material-design-lite/material.min.css">
+    <script src="bower_components/material-design-lite/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+
+
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <!-- Title -->
+            <span class="mdl-layout-title">Assistenza IES</span>
+        </div>
+        <!-- Tabs -->
+        <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+            <a href="#fixed-tab-1" class="mdl-layout__tab is-active">Impianti</a>
+            <a href="#fixed-tab-2" class="mdl-layout__tab">Clienti</a>
+            <a href="#fixed-tab-3" class="mdl-layout__tab">Manutenzioni</a>
+        </div>
+    </header>
+    <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">Assistenza IES</span>
+    </div>
+    <main class="mdl-layout__content">
+        <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
+            <div class="page-content center">
+                <table class="mdl-data-table mdl-js-data-table">
+                    <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Ragione Sociale</th>
+                        <th class="mdl-data-table__cell--non-numeric">Potenza Nominale</th>
+                        <th class="mdl-data-table__cell--non-numeric">Regione</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Società Agricola Agrotec 2 S.A.R.L. di Casagrande S. & Trevisan G.</th>
+                        <th class="mdl-data-table__cell--non-numeric">600</th>
+                        <th class="mdl-data-table__cell--non-numeric">Veneto</th>
+                    </tr>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Società Agricola Foresto S.S.</th>
+                        <th class="mdl-data-table__cell--non-numeric">600</th>
+                        <th class="mdl-data-table__cell--non-numeric">Veneto</th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section class="mdl-layout__tab-panel" id="fixed-tab-2">
+            <div class="page-content"><!-- Your content goes here --></div>
+        </section>
+        <section class="mdl-layout__tab-panel" id="fixed-tab-3">
+            <div class="page-content"><!-- Your content goes here --></div>
+        </section>
+    </main>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+﻿@model Assistenza.BufDalsi.Web.Models.ManutenzioneViewModels.UpdateManutenzioneViewModel
+@using Assistenza.BufDalsi.Data.Models;
+
+<div class="modal-header modal-header-custom">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+<div class="container-fluid">
+    <div class="dati">
+        <form asp-controller="Manutenzione" asp-action="UpdateManutenzioneCliente" method="post">
+            <h2 class="section-title">Modifica Manutenzione</h2>
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    <label for="exampleSelect2">Seleziona la scadenza :</label>
+                    @{ //preparo il valore del datepicker contenente solo la data
+                        string s = @Model.mtz_Scadenza.Day.ToString().PadLeft(2, '0') + "/" + Model.mtz_Scadenza.Month.ToString().PadLeft(2, '0') + "/" + Model.mtz_Scadenza.Year.ToString();
+                    }
+                    <input type="text" class="form-control data" min="1900-01-01" asp-for="@Model.mtz_Scadenza" value="@s" pattern="(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])"  required />
+                </div>
+                <div class="form-group">
+                    <label>Ragione Sociale :</label><br />
+                    <label>@Model.ipt_RagioneSociale</label>
+                    <input type="hidden" value="@Model.ipt_RagioneSociale" asp-for="@Model.ipt_RagioneSociale" />
+                    <input type="hidden" value="@Model.mtz_Id" asp-for="@Model.mtz_Id" />
+                    <input type="hidden" value="@Model.mtz_Impianto" asp-for="@Model.mtz_Impianto" />
+                </div>
+                <div class="form-group">
+                    <label for="exampleTextarea">Addetto :</label>
+                    <input type="text" class="form-control" maxlength="70" asp-for="@Model.mtz_Addetto" value="@Model.mtz_Addetto" rows="1">
+                </div>
+                <div class="form-group">
+                    <label for="exampleSelect2">Seleziona la data di esecuzione :</label>
+                    @{ //preparo il valore del datepicker contenente solo la data
+                        string d = @Model.mtz_Data.Day.ToString().PadLeft(2, '0') + "/" + Model.mtz_Data.Month.ToString().PadLeft(2, '0') + "/" + Model.mtz_Data.Year.ToString();
+                    }
+                    <input type="text" class="form-control data" min="1900-01-01" asp-for="@Model.mtz_Data" value="@d" pattern="(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])"  required />
+                </div>
+                <div class="form-group">
+                    <label for="exampleTextarea">Ore di lavoro :</label>
+                    <input type="number" class="form-control" min="0" asp-for="@Model.mtz_OreLavoro" placeholder="@Model.mtz_OreLavoro" rows="1">
+                </div>
+                <input type="hidden" value="@Model.mtz_Impianto" />
+
+                <div class="form-group">
+                    <label class="control-label">Effettuato :</label>
+                    <input type="checkbox" asp-for="@Model.mtz_Effettuato" /><br />
+                </div>
+                <div class="form-group">
+                    <label for="exampleTextarea">Descrizione :</label>
+                    <textarea class="form-control" maxlength="300" asp-for="@Model.mtz_Descrizione" placeholder="@Model.mtz_Descrizione" rows="3"></textarea>
+                </div>
+                <div class="form-group add-form">
+                    <button type="submit" class="btn btn-primary">Modifica</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.data').datepicker({
+            format: "yyyy/mm/dd",
+            todayBtn: "linked",
+            language: "it",
+            orientation: "auto",
+            autoclose: true,
+            startDate: "1900/01/01",
+            endDate: "2500/01/01"
+        });
+    });
+</script>

@@ -1,0 +1,137 @@
+﻿@model Assistenza.BufDalsi.Web.Models.ClientViewModels.ViewModelClient
+
+
+
+<div class="container">
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+    <div class="row">
+        <div class="col-lg-12 text-box jumbotron" style="font-size:18px">
+            <h2 class="section-title">Clienti</h2>
+            <div class="add">
+                <div class="col-lg-6">
+                    <a class="pull-left pulsante btn-IES btn btn-primary" data-target="#modal-container-insert" data-toggle="modal" asp-controller="Client" asp-action="InsertCliente">Aggiungi</a>
+                </div>
+                <div class="col-lg-6">
+                    <input type="text" id="elemento" onkeyup="search()" class="pull-right filtro form-control" placeholder="Cerca Ragione Sociale" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="clienti">
+        @foreach (var customer in Model.Customers)
+        {
+            <div class="grow container panel panel-warning text-box">
+                <div >
+                    <div class="dati">
+                        <div class="dati sinistra">
+                            <a asp-action="Details" asp-controller="Client" asp-route-id="@customer.clt_Id" data-target="#modal-container" class="clienti" data-toggle="modal">
+
+                                <div>
+                                    <p><span class="glyphicon glyphicon-user"></span> <span class="text-bold">Ragione Sociale:</span>  @customer.clt_RagioneSociale</p>
+                                    <p><span class="glyphicon glyphicon-road"></span> <span class="text-bold">Indirizzo:</span>  @customer.clt_Indirizzo</p>
+                                    @{
+                                        if (customer.clt_Mail == null)
+                                        {
+                                            <p><span class="glyphicon glyphicon-envelope"></span> <span class="text-bold">E-Mail:</span> Email non disponibile </p>
+                                        }
+                                        else
+                                        {
+                                            <p><span class="glyphicon glyphicon-envelope"></span> <span class="text-bold">E-Mail:</span>  @customer.clt_Mail</p>
+                                        }
+                                    }
+                                </div>
+                            </a>
+                        </div>
+                        <span class="destra pull-right">
+                            <a class="fab red" method="delete" data-target="#modal-container-delete" data-toggle="modal" href='@Url.Action("DeleteCliente", "Client",
+                                new { clt_Id=@customer.clt_Id})'><span class="glyphicon glyphicon-trash centra-icona"></span></a>
+                        </span>
+                        <span class="destra pull-right">
+                            <a class="fab red" method="delete" data-target="#modal-container-update-cliente" data-toggle="modal" href='@Url.Action("UpdateCliente", "Client",
+                                new { clt_Id=@customer.clt_Id})'><span class="glyphicon glyphicon-pencil centra-icona"></span></a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+                                    }
+    </div>
+</div>
+
+
+<div class="row">
+    <div id="modal-container" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div id="modal-container-insert" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div id="modal-container-delete" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div id="modal-container-update-cliente" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('#modal-container').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var url = button.attr("href");
+                var modal = $(this);
+
+                modal.find('.modal-content').load(url);
+            });
+            ;
+        })
+
+        function search() {
+
+            var input, filter, ul, li, p, i;
+
+            input = document.getElementById("elemento");
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("clienti");
+            li = ul.getElementsByTagName("div");
+
+            for (i = 0; i < li.length; i++) {
+
+                p = li[i].getElementsByTagName("p")[0];
+
+                if (p.innerHTML.toUpperCase().indexOf(filter) > -1) {
+
+                    $(li[i]).fadeIn(1000);
+
+                } else {
+
+                    $(li[i]).fadeOut(1000);
+
+                }
+            }
+        }
+        $('.reload').on('hidden.bs.modal', function () {
+            location.reload();
+
+        });
+    </script>
+}

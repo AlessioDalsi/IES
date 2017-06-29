@@ -1,0 +1,21 @@
+﻿@model  Assistenza.BufDalsi.Web.Models.ManutenzioneViewModels.DeleteViewModel
+
+<div class="modal-header modal-header-custom">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+<div class="dati panel-heading">
+    <form method="post" asp-controller="Manutenzione" asp-action="DeleteManutenzioneCliente">
+        <fieldset>
+            <legend>Sicuro di voler eliminare questa manutenzione programmata?</legend>
+
+
+            <input type="hidden" name="mtz_Id" value="@Model.m" />
+            <p class="pull-left">
+                <input class="btn btn-warning" type="submit" name="Delete" value="Elimina" />
+            </p>
+            <p class="pull-right">
+                <a class="btn btn-primary" asp-action="ViewManutenzioniByCliente"> Torna alle manutenzioni</a><br />
+            </p>
+        </fieldset>
+    </form>
+</div>

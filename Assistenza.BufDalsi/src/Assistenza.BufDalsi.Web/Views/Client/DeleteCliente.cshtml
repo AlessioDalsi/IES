@@ -1,0 +1,14 @@
+﻿@model Assistenza.BufDalsi.Web.Models.ClientViewModels.DeleteClienteViewModel
+
+<div class="modal-header modal-header-custom">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+<div class="dati panel-heading">
+    <form method="post" asp-controller="Client" asp-action="DeleteCliente">
+        <fieldset>
+            <legend>Sicuro di voler eliminare questo cliente ?</legend>
+            <input type="hidden" value="@Model.clt_Id" asp-for="@Model.clt_Id" />
+            <input class="btn btn-warning" type="submit" name="DeleteCliente" value="Elimina" /><a class="btn pull-right btn-primary" data-dismiss="modal"> Torna ai clienti</a><br />
+        </fieldset>
+    </form>
+</div>

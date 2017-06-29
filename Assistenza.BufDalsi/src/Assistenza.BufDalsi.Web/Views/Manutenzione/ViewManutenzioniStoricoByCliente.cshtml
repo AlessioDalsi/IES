@@ -1,0 +1,122 @@
+﻿@model Assistenza.BufDalsi.Web.Models.ManutenzioneViewModels.ManutenzioneViewModel
+
+<div class="container-fluid">
+    <img class="col-lg-offset-8 col-lg-4" src="~/Images/wrenchX600.png">
+</div>
+
+<div class="container">
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+    <div class="row">
+        <div class="col-lg-12 text-box jumbotron" style="font-size:18px">
+            <h2 class="section-title">Storico Manutenzioni</h2>
+            <div class="row">
+                <div class="pull-right">
+                    <input type="text" placeholder="Cerca per data " id="inputd" onkeyup="search()" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="pull-right">
+                    <input type="text" placeholder="Cerca per ragione sociale " id="inputrs" onkeyup="search()" class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="manutenzioni">
+        @foreach (var man in Model.Storico)
+        {
+            <div class="container panel panel-default text-box">
+                <div>
+                    <div class="dati">
+                        <div class="dati sinistra">
+                            <div class="panel-heading">
+                                <p> <span class="glyphicon glyphicon-hourglass"></span> <span class="text-bold">Scadenza:</span>  @String.Format("{0:dd/MM/yyyy}", man.mtz_Scadenza.Date)</p>
+                                <p> <span class="glyphicon glyphicon-calendar"></span> <span class="text-bold">Data:</span> @String.Format("{0:dd/MM/yyyy}", man.mtz_Data.Date)</p>
+                                <p> <span class="glyphicon glyphicon-record"></span> <span class="text-bold">Impianto:</span> @man.ipt_RagioneSociale</p>
+                                <p> <span class="glyphicon glyphicon-user"></span> <span class="text-bold">Addetto:</span> @man.mtz_Addetto</p>
+                                <p> <span class="glyphicon glyphicon-align-left"></span> <span class="text-bold">Descrizione:</span> @man.mtz_Descrizione</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+
+<div class="row">
+    <div id="modal-container" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="modal-container-update" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="modal-container-delete" class="modal fade hidden-print reload" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('#modal-container').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var url = button.attr("href");
+                var modal = $(this);
+
+                modal.find('.modal-content').load(url);
+            });
+            ;
+        })
+
+        function search() {
+
+            var input, input2, filter, filter2, ul, li, p, p2;
+
+            input = document.getElementById("inputd");
+            input2 = document.getElementById("inputrs");
+            filter = input.value.toString();
+            filter2 = input2.value.toUpperCase();
+            ul = document.getElementById("manutenzioni");
+            li = ul.getElementsByTagName("div");
+
+            for (var i = 0; i < li.length; i++) {
+
+                p = li[i].getElementsByTagName("p")[1];
+                p2 = li[i].getElementsByTagName("p")[2];
+                if (p.innerHTML.toUpperCase().indexOf(filter) > -1 && p2.innerHTML.toUpperCase().indexOf(filter2) > -1) {
+                    $(li[i]).fadeIn(1000);
+
+                } else {
+
+                    $(li[i]).fadeOut(1000);
+
+                }
+            }
+        }
+        $('.reload').on('hidden.bs.modal', function () {
+            location.reload();
+
+        });
+    </script>
+}
+

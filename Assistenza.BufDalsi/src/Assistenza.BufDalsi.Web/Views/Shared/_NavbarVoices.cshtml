@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Assistenza.BufDalsi.Web.Models
+@using Assistenza.BufDalsi.Web.Data
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (User.IsInRole("User"))
+{
+    @**<li class="menu"><a>Apri Ticket/Richiedi Assistenza</a></li>*@
+    <li class="menu"><a asp-controller="Impianto" asp-action="ViewImpiantiByClient">Impianti</a></li>
+    <li class="menu"><a asp-controller="Manutenzione" asp-action="ViewManutenzioniByCliente">Manutenzioni</a></li>
+}
+else if (User.IsInRole("Operator"))
+{
+    @*<li class="menu"><a>Tickets</a></li>*@
+        <li class="menu"><a asp-controller="Impianto" asp-action="Index">Impianti</a></li>
+        <li class="menu"><a asp-controller="Client" asp-action="Index">Clienti</a></li>
+        <li class="menu"><a asp-controller="Manutenzione" asp-action="ViewManutenzioni">Manutenzioni</a></li>
+    }
+    else if (User.IsInRole("Admin"))
+    {
+        <li class="menu"><a asp-controller="User" asp-action="Index">Pannello di Controllo</a></li><li class="menu"><a asp-controller="ApplicationRole" asp-action="Index">Ruoli</a></li>
+    }
+    else
+    {
+
+    }
+
+

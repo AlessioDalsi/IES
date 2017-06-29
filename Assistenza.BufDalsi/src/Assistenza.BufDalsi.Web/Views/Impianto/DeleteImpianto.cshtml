@@ -1,0 +1,22 @@
+﻿@model Assistenza.BufDalsi.Web.Models.ImpiantoViewModels.DeleteImpiantoViewModel
+
+
+<div class="modal-header modal-header-custom">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+<div class="dati panel-heading">
+    <form asp-controller="Impianto" asp-action="DeleteImpianto" method="post">
+        <fieldset>
+            <legend>Se l'impianto possiede altri componenti verranno eliminati insieme all'impianto. 
+            Sicuro di voler eliminare questo impianto ?</legend>
+
+            <input type="hidden" name="ipt_Id" value="@Model.i" />
+            <p class="pull-left">
+                <input class="btn btn-warning" type="submit" name="Delete" value="Elimina" />
+            </p>
+            <p class="pull-right">
+                <a class="btn btn-primary" asp-action="Index"> Torna a impianti</a><br />
+            </p>
+        </fieldset>
+    </form>
+</div>

@@ -1,0 +1,16 @@
+﻿@model string
+@using Assistenza.BufDalsi.Web.Models
+
+
+<div class="modal-header modal-header-custom">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+<form asp-action="DeleteUser" role="form">
+    @Html.Partial("_ModalHeader", new ModalHeader { Heading = "Elimina Utente" })
+
+    <div class="modal-body form-horizontal">
+        Vuoi cancellare l'utente @Model?
+    </div>
+    @Html.Partial("_ModalFooter", new ModalFooter { SubmitButtonText = "Elimina" })
+</form>
+

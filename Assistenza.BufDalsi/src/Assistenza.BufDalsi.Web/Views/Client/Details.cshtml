@@ -1,0 +1,103 @@
+﻿@model Assistenza.BufDalsi.Web.Models.ClientViewModels.DetailViewModel
+@using Assistenza.BufDalsi.Data.Models;
+
+
+
+<div id="target">
+    <form asp-controller="Client">
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <div class="container-fluid cliente">
+                    <p> <span class="glyphicon glyphicon-user"></span>
+                        @Model.Client.clt_RagioneSociale
+                    </p><br />
+                    <p><span class="glyphicon glyphicon-road"></span>
+                        @Model.Client.clt_Indirizzo
+                    </p><br />
+                    @{if (Model.Client.clt_Mail == null)
+                        {
+                            <p><span class="glyphicon glyphicon-envelope"></span> Email non disponibile</p>
+                        }
+                        else
+                        {
+                            <p><span class="glyphicon glyphicon-envelope"></span> @Model.Client.clt_Mail</p>
+                        }
+                    }<br />
+                    @{if (Model.Client.clt_Telefono == null)
+                        {
+                            <p><span class="glyphicon glyphicon-phone-alt"></span> Telefono non disponibile</p>
+                        }
+                        else
+                        {
+                            <p><span class="glyphicon glyphicon-phone-alt"></span> @Model.Client.clt_Telefono</p>
+                        }
+                    }<br />
+                    @{if (Model.Client.clt_Mobile == null)
+                        {
+                            <p><span class="glyphicon glyphicon-phone"></span> Mobile non disponibile</p>
+                        }
+                        else
+                        {
+                            <p> <span class="glyphicon glyphicon-phone"></span> @Model.Client.clt_Mobile</p>
+                        }
+                    }<br /><br />
+                </div>
+                <div class="container-fluid">
+                    <h3 class="section-title">Impianti</h3>
+                    <div class="row centra-impianti">
+                        @foreach (Impianto i in Model.Implants)
+                        {   <div class="col-md-4">
+                            <div class="panel panel-default client-detail text-box">
+                                <div class="dati">
+                                    <p>Ragione Sociale: @i.ipt_RagioneSociale</p>
+                                    <p>Latitudine: @i.ipt_PosizioneLat</p>
+                                    <p>Longitudine: @i.ipt_PosizioneLong</p>
+                                    <p>Potenza Nominale: @i.ipt_PotenzaNominale</p>
+                                    @{if (i.ipt_Torcia == null)
+                                        {
+                                            <p>Torcia: n/d</p>
+                                        }
+                                        else
+                                        {
+                                            <p>Torcia: @i.ipt_Torcia</p>
+                                        }
+                                    }
+                                    @{if (i.ipt_Separatore == null)
+                                        {
+                                            <p>Separatore: n/d</p>
+                                        }
+                                        else
+                                        {
+                                            <p>Separatore: @i.ipt_Separatore</p>
+                                        }
+                                    }
+                                    @{if (i.ipt_Soffiante == null)
+                                        {
+                                            <p>Soffiante: n/d</p>
+                                        }
+                                        else
+                                        {
+                                            <p>Soffiante: @i.ipt_Soffiante</p>
+                                        }
+                                    }
+                                    @{if (i.ipt_Pompa == null)
+                                        {
+                                            <p>Pompa: n/d</p>
+                                        }
+                                        else
+                                        {
+                                            <p>Pompa: @i.ipt_Pompa</p>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+>

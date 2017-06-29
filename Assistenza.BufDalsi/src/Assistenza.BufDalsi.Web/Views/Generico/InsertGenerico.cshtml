@@ -1,0 +1,91 @@
+﻿@model Assistenza.BufDalsi.Web.Models.GenericoViewModels.InsertGenericoViewModel
+
+<div class="modal-header modal-header-custom">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+<div>
+
+    <form asp-controller="Generico" asp-action="InsertGenerico">
+        <div class="dati">
+            <div class="form-group">
+                <label class="control-label">Nome :</label>
+                <input type="text" class="form-control" maxlength="100" required asp-for="@Model.gnr_Nome" /><br />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Marca :</label>
+                <input type="text" class="form-control" maxlength="100" title="La marca non può essere più lunga di 50 caratteri" asp-for="@Model.gnr_Marca" /><br />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Modello :</label>
+                <input type="text" class="form-control" maxlength="100" asp-for="@Model.gnr_Modello" /><br />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Serial Number :</label>
+                <input type="text" class="form-control" maxlength="100" asp-for="@Model.gnr_Serie" /><br />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Ultima Installazione :</label>
+                @{ //preparo il valore del datepicker contenente solo la data
+                    string us = @Model.gnr_UltimaInstallazione.Day.ToString().PadLeft(2, '0') + "/" + Model.gnr_UltimaInstallazione.Month.ToString().PadLeft(2, '0') + "/" + Model.gnr_UltimaInstallazione.Year.ToString();
+                }
+                <input type="text" id="installazione" class="form-control data" value="dd/mm/yyyy" pattern="(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])" asp-for="@Model.gnr_UltimaInstallazione" /><br />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Ultimo Intervento :</label>
+                @{ //preparo il valore del datepicker contenente solo la data
+                    string ui = @Model.gnr_UltimoIntervento.Day.ToString().PadLeft(2, '0') + "/" + Model.gnr_UltimoIntervento.Month.ToString().PadLeft(2, '0') + "/" + Model.gnr_UltimoIntervento.Year.ToString();
+                }
+                <input type="text" id="intervento" class="form-control data" value="dd/mm/yyyy" pattern="(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])" asp-for="@Model.gnr_UltimoIntervento" /><br />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Ore di Lavoro :</label>
+                <input type="text" class="form-control" pattern="[0-9]{1,2}([,][0-9])?" title="Inserire un numero inferiore a 100 con al massimo una cifra decimale dopo la virgola." asp-for="@Model.gnr_OreUltimoIntervento" value="0" /><br />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Rimosso :</label>
+                <input type="checkbox" asp-for="@Model.gnr_Rimosso" /><br />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Descrizione :</label><br />
+                <textarea class="form-control" id="comment" rows="4" cols="50" value="nessuna descrizione" maxlength="300" asp-for="@Model.gnr_Descrizione"></textarea>
+            </div>
+            <input type="hidden" value="@Model.clt_Id" asp-for="@Model.clt_Id" />
+            <input type="hidden" value="@Model.ipt_Id" asp-for="@Model.ipt_Id" />
+            <input type="hidden" value="@Model.gnr_Impianto" asp-for="@Model.gnr_Impianto" />
+            <div class="form-group add">
+                <button id="invia" asp-action="InsertGenerico" type="submit" class="btn btn-primary">Inserisci</button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<script>
+
+    //---------------- Impostazione opzioni datepicker -------------------------\\
+
+    $(document).ready(function () {
+        $('.data').datepicker({
+            format: "yyyy/mm/dd",
+            todayBtn: "linked",
+            language: "it",
+            orientation: "auto",
+            autoclose: true,
+            startDate: "1900/01/01",
+            endDate: "2500/01/01"
+        });
+    //---------------- Comparazione date e disattivazione pulsante di submit in caso di esito negativo del confornto -----------------------\\
+
+        $('#intervento').datepicker().on('changeDate', function () {
+            var installazione = jQuery('#installazione').datepicker('getDate');
+            var intervento = jQuery('#intervento').datepicker('getDate');
+            if (intervento < installazione) {
+                alert("ATTENZIONE la data dell'ultimo intervento è minore della data dell'ultima installazione. Sei sicuro di aver inserito le date corrette?");
+                $('#invia').prop("disabled", true);
+            } else {
+                $('#invia').prop("disabled", false);
+            }
+        });
+    });
+
+</script>

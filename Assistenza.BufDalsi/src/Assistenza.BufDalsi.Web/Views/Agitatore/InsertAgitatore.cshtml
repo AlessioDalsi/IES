@@ -1,0 +1,90 @@
+﻿@model Assistenza.BufDalsi.Web.Models.AgitatoreViewModels.InsertAgitatoreViewModel
+
+
+<div class="modal-header modal-header-custom">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+<div>
+
+    <form asp-controller="Agitatore" asp-action="InsertAgitatore">
+        <div class="dati">
+            <div class="form-group">
+                <label class="control-label">Nome :</label>
+                <input type="text" required class="form-control" maxlength="70" asp-for="@Model.agt_Nome" /><br />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Marca :</label>
+                <input type="text" class="form-control" maxlength="70" title="La marca non può essere più lunga di 50 caratteri" asp-for="@Model.agt_Marca" /><br />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Modello (e potenza) :</label>
+                <input type="text" class="form-control" maxlength="70" asp-for="@Model.agt_Modello" /><br />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Serial Number :</label>
+                <input type="text" class="form-control" maxlength="70" asp-for="@Model.agt_SerialNumber" /><br />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Ultima Installazione :</label>
+                @{ //preparo il valore del datepicker contenente solo la data
+                    string us = @Model.agt_UltimaInstallazione.Day.ToString().PadLeft(2, '0') + "/" + Model.agt_UltimaInstallazione.Month.ToString().PadLeft(2, '0') + "/" + Model.agt_UltimaInstallazione.Year.ToString();
+                }
+                <input type="text" id="installazione" class="form-control data" value="yyyy/mm/dd" pattern="(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])"  max="01/01/2500" asp-for="@Model.agt_UltimaInstallazione" /><br />  
+            </div>
+            <div class="form-group">
+                <label class="control-label">Ultimo Intervento :</label>
+                @{ //preparo il valore del datepicker contenente solo la data
+                    string ui = @Model.agt_UltimaInstallazione.Day.ToString().PadLeft(2, '0') + "/" + Model.agt_UltimaInstallazione.Month.ToString().PadLeft(2, '0') + "/" + Model.agt_UltimaInstallazione.Year.ToString();
+                }
+                <input type="text" id="intervento" class="form-control data" value="yyyy/mm/dd" pattern="(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])"  asp-for="@Model.agt_UltimoIntervento" /><br />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Ore Ultimo Intervento :</label>
+                <input type="number" class="form-control" min="0" max="60000" asp-for="@Model.agt_OreUltimoIntervento" /><br />
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Rimosso :</label>
+                <input type="checkbox" asp-for="@Model.agt_Rimosso" /><br />
+            </div>
+            <input type="hidden" value="@Model.clt_Id" asp-for="@Model.clt_Id" />
+            <input type="hidden" value="@Model.ipt_Id" asp-for="@Model.ipt_Id" />
+            <input type="hidden" value="@Model.agt_Vasca" asp-for="@Model.agt_Vasca" />
+            <div class="form-group add">
+                <button id="invia" asp-action="InsertAgitatore" type="submit" class="btn btn-primary">Inserisci</button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<script>
+
+    //---------------- Impostazione opzioni datepicker -------------------------\\
+
+    $(document).ready(function () {
+        $('.data').datepicker({
+            format: "yyyy/mm/dd",
+            todayBtn: "linked",
+            language: "it",
+            orientation: "auto",
+            autoclose: true,
+            startDate: "1900/01/01",
+            endDate: "2500/01/01"
+        });
+
+    //---------------- Comparazione date e disattivazione pulsante di submit in caso di esito negativo del confornto -----------------------\\
+
+        $('#intervento').datepicker().on('changeDate', function () {
+            var installazione = jQuery('#installazione').datepicker('getDate');
+            var intervento = jQuery('#intervento').datepicker('getDate');
+            if (intervento < installazione) {
+                alert("ATTENZIONE la data dell'ultimo intervento è minore della data dell'ultima installazione. Sei sicuro di aver inserito le date corrette?");
+                $('#invia').prop("disabled", true);
+            } else {
+                $('#invia').prop("disabled", false);
+            }
+        });
+    });
+
+</script>

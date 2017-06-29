@@ -1,0 +1,32 @@
+﻿@model Assistenza.BufDalsi.Web.Models.ClientViewModels.InsertClientViewModel
+
+<div class="modal-header modal-header-custom">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+<div class="dati">
+    <form asp-controller="Client" asp-action="InsertCliente" id="frm">
+        <div class="form-group">
+            <label class="control-label">Ragione Sociale :</label>
+            <input id="marca" required type="text" class="form-control" maxlength="70" asp-for="@Model.c.clt_RagioneSociale" /><br />
+        </div>
+        <div class="form-group">
+            <label class="control-label">Indirizzo :</label>
+            <input type="text" class="form-control" maxlength="70" asp-for="@Model.c.clt_Indirizzo" /><br />
+        </div>
+        <div class="form-group">
+            <label class="control-label">Email :</label>
+            <input type="email" class="form-control" maxlength="70"  asp-for="@Model.c.clt_Mail" /><br />
+        </div>
+        <div class="form-group">
+            <label class="control-label">Cellulare :</label>
+            <input type="text" class="form-control" pattern="(\d{2,4})?\d{8,9}" title="Rispetta il formato: xxxx xxxxxxxxx oppure xxxxxxxxx. " maxlength="70" asp-for="@Model.c.clt_Mobile" /><br />
+        </div>
+        <div class="form-group">
+            <label class="control-label">Telefono Fisso :</label>
+            <input type="number" class="form-control" maxlength="70" asp-for="@Model.c.clt_Telefono" /><br />
+        </div>
+
+        <button asp-action="InsertCliente" id="validate" type="submit" class="btn btn-primary">Inserisci</button>
+    </form>
+</div>
+
